@@ -163,10 +163,9 @@ def user_profile():
 #     stack_list = request.json.get()
 @app.route("/get_users", methods=['GET', 'POST'])
 def get_users():
+        user_id = request.json.get("user_id")
         logged_user = [doc for doc in mydb.user_details.find({}, {'_id': 0,"password": 0})]
-        return jsonify({"users": logged_user})
-
-
-
+        for users in mydb["user_details"].find({"user_id":user_id},{'_id':0,"password":0}):
+            return jsonify({"users_list":logged_user,"user":users})
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=False)
